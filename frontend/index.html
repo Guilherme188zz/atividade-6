@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>🐾 Clínica Veterinária — Painel</title>
+  <style>
+    body { font-family: monospace; background: #0d0d0d; color: #00ff88; padding: 2rem; }
+    h1 { font-size: 1.4rem; }
+    input, select { background: #1a1a1a; color: #fff; border: 1px solid #00ff88; padding: 6px; margin: 4px; }
+    button { background: #00ff88; color: #000; border: none; padding: 8px 16px; cursor: pointer; font-weight: bold; margin: 4px; }
+    button.del { background: #ff4444; color: #fff; }
+    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+    th, td { border: 1px solid #333; padding: 8px; text-align: left; }
+    th { background: #1a1a1a; color: #00ff88; }
+    .status { color: #aaa; font-size: 0.8rem; margin-top: 8px; }
+    #api-url-input { width: 400px; }
+  </style>
+</head>
+<body>
+  <h1>🐾 Clínica Veterinária — Painel Frankenstein</h1>
+
+  <div>
+    <label>API URL base:</label><br>
+    <input id="api-url-input" type="text" placeholder="https://xxxx.execute-api.us-east-1.amazonaws.com" />
+    <button onclick="loadPets()">🔄 Carregar Pets</button>
+  </div>
+
+  <hr style="border-color:#333; margin: 1.5rem 0">
+
+  <h2 style="font-size:1rem">➕ Cadastrar Pet</h2>
+  <input id="f-name" placeholder="Nome do pet" />
+  <select id="f-species">
+    <option value="dog">🐶 Cachorro</option>
+    <option value="cat">🐱 Gato</option>
+    <option value="bird">🐦 Pássaro</option>
+    <option value="other">🐾 Outro</option>
+  </select>
+  <input id="f-breed" placeholder="Raça (opcional)" />
+  <input id="f-owner" placeholder="Nome do tutor" />
+  <input id="f-phone" placeholder="Telefone (opcional)" />
+  <button onclick="createPet()">Cadastrar</button>
+  <div class="status" id="form-status"></div>
+
+  <hr style="border-color:#333; margin: 1.5rem 0">
+
+  <h2 style="font-size:1rem">📋 Pets Cadastrados</h2>
+  <table id="pets-table">
+    <thead>
+      <tr>
+        <th>Nome</th><th>Espécie</th><th>Raça</th><th>Tutor</th><th>Telefone</th><th>Ação</th>
+      </tr>
+    </thead>
+    <tbody id="pets-body">
+      <tr><td colspan="6" style="color:#555">Clique em "Carregar Pets"</td></tr>
+    </tbody>
+  </table>
+
+  <script>
+    const getApiUrl = () => document.getElementById("api-url-input").value.trim().replace(/\/$/, "");
+
+    async function loadPets() {
+      const tbody = document.getElementById("pets-body");
+      tbody.innerHTML = '<tr><td colspan="6">Carregando...</td></tr>';
+      try {
+        const res = await fetch(`${getApiUrl()}/pets`);
+        const pets = await res.json();
+        if (!pets.length) {
+          tbody.innerHTML = '<tr><td colspan="6" style="color:#555">Nenhum pet cadastrado ainda.</td></tr>';
+          return;
+        }
+        tbody.innerHTML = pets.map(p => `
+          <tr>
+            <td>${p.name}</td>
+            <td>${p.species}</td>
+            <td>${p.breed || "—"}</td>
+            <td>${p.ownerName}</td>
+            <td>${p.ownerPhone || "—"}</td>
+            <td><button class="del" onclick="deletePet('${p.id}')">🗑 Remover</button></td>
+          </tr>
+        `).join("");
+      } catch (e) {
+        tbody.innerHTML = `<tr><td colspan="6" style="color:#ff4444">Erro ao carregar. Verifique a URL da API.</td></tr>`;
+      }
+    }
+
+    async function createPet() {
+      const status = document.getElementById("form-status");
+      const body = {
+        name: document.getElementById("f-name").value,
+        species: document.getElementById("f-species").value,
+        breed: document.getElementById("f-breed").value,
+        ownerName: document.getElementById("f-owner").value,
+        ownerPhone: document.getElementById("f-phone").value,
+      };
+      if (!body.name || !body.ownerName) {
+        status.textContent = "⚠️ Nome do pet e tutor são obrigatórios.";
+        return;
+      }
+      try {
+        const res = await fetch(`${getApiUrl()}/pets`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(body)
+        });
+        const data = await res.json();
+        status.textContent = `✅ Pet "${data.name}" cadastrado com sucesso!`;
+        ["f-name","f-breed","f-owner","f-phone"].f
