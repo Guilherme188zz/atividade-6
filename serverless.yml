@@ -1,5 +1,7 @@
 service: vet-clinic
- 
+
+frameworkVersion: "4"
+
 provider:
   name: aws
   runtime: python3.12
@@ -7,6 +9,7 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     PETS_TABLE: ${self:service}-pets-${self:provider.stage}
+    TABLE_NAME: ${self:service}-inventory-${self:provider.stage}
     FRONTEND_BUCKET: ${self:service}-frontend-${self:provider.stage}
   iam:
     role:
@@ -20,45 +23,96 @@ provider:
             - dynamodb:Scan
           Resource:
             - !GetAtt PetsTable.Arn
- 
+            - !GetAtt InventoryTable.Arn
+
 functions:
+
+  # -------------------------
+  # PETS
+  # -------------------------
   createPet:
     handler: src/pets/create.handler
     events:
       - httpApi:
           path: /pets
           method: POST
- 
+
   listPets:
     handler: src/pets/list.handler
     events:
       - httpApi:
           path: /pets
           method: GET
- 
+
   getPet:
     handler: src/pets/get.handler
     events:
       - httpApi:
           path: /pets/{id}
           method: GET
- 
+
   updatePet:
     handler: src/pets/update.handler
     events:
       - httpApi:
           path: /pets/{id}
           method: PUT
- 
+
   deletePet:
     handler: src/pets/delete.handler
     events:
       - httpApi:
           path: /pets/{id}
           method: DELETE
- 
+
+  # -------------------------
+  # INVENTORY
+  # -------------------------
+  inventoryCreate:
+    handler: src/inventory/create.handler
+    events:
+      - httpApi:
+          path: /inventory
+          method: POST
+
+  inventoryList:
+    handler: src/inventory/list.handler
+    events:
+      - httpApi:
+          path: /inventory
+          method: GET
+
+  inventoryGet:
+    handler: src/inventory/get.handler
+    events:
+      - httpApi:
+          path: /inventory/{id}
+          method: GET
+
+  inventoryUpdate:
+    handler: src/inventory/update.handler
+    events:
+      - httpApi:
+          path: /inventory/{id}
+          method: PUT
+
+  inventoryAdjust:
+    handler: src/inventory/adjust.handler
+    events:
+      - httpApi:
+          path: /inventory/{id}/adjust
+          method: PATCH
+
+  inventoryDelete:
+    handler: src/inventory/delete.handler
+    events:
+      - httpApi:
+          path: /inventory/{id}
+          method: DELETE
+
 resources:
   Resources:
+
     PetsTable:
       Type: AWS::DynamoDB::Table
       Properties:
@@ -70,7 +124,19 @@ resources:
         KeySchema:
           - AttributeName: id
             KeyType: HASH
- 
+
+    InventoryTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.TABLE_NAME}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+
     FrontendBucket:
       Type: AWS::S3::Bucket
       Properties:
@@ -82,7 +148,7 @@ resources:
           RestrictPublicBuckets: false
         WebsiteConfiguration:
           IndexDocument: index.html
- 
+
     FrontendBucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -93,7 +159,7 @@ resources:
               Principal: '*'
               Action: s3:GetObject
               Resource: !Sub '${FrontendBucket.Arn}/*'
- 
+
   Outputs:
     ApiUrl:
       Value: !Sub 'https://${HttpApi}.execute-api.${self:provider.region}.amazonaws.com'

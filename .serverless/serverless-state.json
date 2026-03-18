@@ -1,0 +1,2015 @@
+{
+  "service": {
+    "service": "vet-clinic",
+    "serviceObject": {
+      "name": "vet-clinic"
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "python3.12",
+      "region": "us-east-1",
+      "stage": "dev",
+      "environment": {
+        "PETS_TABLE": "vet-clinic-pets-dev",
+        "TABLE_NAME": "vet-clinic-inventory-dev",
+        "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+      },
+      "iam": {
+        "role": {
+          "statements": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "dynamodb:PutItem",
+                "dynamodb:GetItem",
+                "dynamodb:UpdateItem",
+                "dynamodb:DeleteItem",
+                "dynamodb:Scan"
+              ],
+              "Resource": [
+                {
+                  "Fn::GetAtt": [
+                    "PetsTable",
+                    "Arn"
+                  ]
+                },
+                {
+                  "Fn::GetAtt": [
+                    "InventoryTable",
+                    "Arn"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "CreatePetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-createPet"
+            }
+          },
+          "ListPetsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-listPets"
+            }
+          },
+          "GetPetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-getPet"
+            }
+          },
+          "UpdatePetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-updatePet"
+            }
+          },
+          "DeletePetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-deletePet"
+            }
+          },
+          "InventoryCreateLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryCreate"
+            }
+          },
+          "InventoryListLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryList"
+            }
+          },
+          "InventoryGetLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryGet"
+            }
+          },
+          "InventoryUpdateLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryUpdate"
+            }
+          },
+          "InventoryAdjustLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryAdjust"
+            }
+          },
+          "InventoryDeleteLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryDelete"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "vet-clinic",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iam\"][\"role\"][\"statements\"][0]"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "vet-clinic",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "CreatePetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/pets/create.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-createPet",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "CreatePetLogGroup"
+            ]
+          },
+          "ListPetsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/pets/list.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-listPets",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "ListPetsLogGroup"
+            ]
+          },
+          "GetPetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/pets/get.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-getPet",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetPetLogGroup"
+            ]
+          },
+          "UpdatePetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/pets/update.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-updatePet",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "UpdatePetLogGroup"
+            ]
+          },
+          "DeletePetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/pets/delete.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-deletePet",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "DeletePetLogGroup"
+            ]
+          },
+          "InventoryCreateLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/create.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryCreate",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryCreateLogGroup"
+            ]
+          },
+          "InventoryListLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/list.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryList",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryListLogGroup"
+            ]
+          },
+          "InventoryGetLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/get.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryGet",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryGetLogGroup"
+            ]
+          },
+          "InventoryUpdateLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/update.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryUpdate",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryUpdateLogGroup"
+            ]
+          },
+          "InventoryAdjustLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/adjust.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryAdjust",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryAdjustLogGroup"
+            ]
+          },
+          "InventoryDeleteLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              },
+              "Handler": "src/inventory/delete.handler",
+              "Runtime": "python3.12",
+              "FunctionName": "vet-clinic-dev-inventoryDelete",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Environment": {
+                "Variables": {
+                  "PETS_TABLE": "vet-clinic-pets-dev",
+                  "TABLE_NAME": "vet-clinic-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                }
+              },
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "InventoryDeleteLogGroup"
+            ]
+          },
+          "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "CreatePetLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "ListPetsLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetPetLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "UpdatePetLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "DeletePetLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryCreateLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryListLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryGetLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryUpdateLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryAdjustLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "InventoryDeleteLambdaFunction"
+              },
+              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            }
+          },
+          "HttpApi": {
+            "Type": "AWS::ApiGatewayV2::Api",
+            "Properties": {
+              "Name": "dev-vet-clinic",
+              "ProtocolType": "HTTP"
+            }
+          },
+          "HttpApiStage": {
+            "Type": "AWS::ApiGatewayV2::Stage",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "StageName": "$default",
+              "AutoDeploy": true,
+              "DefaultRouteSettings": {
+                "DetailedMetricsEnabled": false
+              }
+            }
+          },
+          "CreatePetLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "CreatePetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationCreatePet": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"CreatePetLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePostPets": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "POST /pets",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationCreatePet"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationCreatePet"
+          },
+          "ListPetsLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "ListPetsLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationListPets": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"ListPetsLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteGetPets": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "GET /pets",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationListPets"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationListPets"
+          },
+          "GetPetLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetPetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationGetPet": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"GetPetLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteGetPetsIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "GET /pets/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationGetPet"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationGetPet"
+          },
+          "UpdatePetLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "UpdatePetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationUpdatePet": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"UpdatePetLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePutPetsIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "PUT /pets/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationUpdatePet"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationUpdatePet"
+          },
+          "DeletePetLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "DeletePetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationDeletePet": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"DeletePetLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteDeletePetsIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "DELETE /pets/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationDeletePet"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationDeletePet"
+          },
+          "InventoryCreateLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryCreateLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryCreate": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryCreateLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePostInventory": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "POST /inventory",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryCreate"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryCreate"
+          },
+          "InventoryListLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryListLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryList": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryListLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteGetInventory": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "GET /inventory",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryList"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryList"
+          },
+          "InventoryGetLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryGetLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryGet": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryGetLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteGetInventoryIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "GET /inventory/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryGet"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryGet"
+          },
+          "InventoryUpdateLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryUpdateLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryUpdate": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryUpdateLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePutInventoryIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "PUT /inventory/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryUpdate"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryUpdate"
+          },
+          "InventoryAdjustLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryAdjustLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryAdjust": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryAdjustLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRoutePatchInventoryIdVarAdjust": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "PATCH /inventory/{id}/adjust",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryAdjust"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryAdjust"
+          },
+          "InventoryDeleteLambdaPermissionHttpApi": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "InventoryDeleteLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "HttpApi"
+                    },
+                    "/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "HttpApiIntegrationInventoryDelete": {
+            "Type": "AWS::ApiGatewayV2::Integration",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "IntegrationType": "AWS_PROXY",
+              "IntegrationUri": {
+                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"InventoryDeleteLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
+              },
+              "PayloadFormatVersion": "2.0",
+              "TimeoutInMillis": 30000
+            }
+          },
+          "HttpApiRouteDeleteInventoryIdVar": {
+            "Type": "AWS::ApiGatewayV2::Route",
+            "Properties": {
+              "ApiId": {
+                "Ref": "HttpApi"
+              },
+              "RouteKey": "DELETE /inventory/{id}",
+              "Target": {
+                "Fn::Join": [
+                  "/",
+                  [
+                    "integrations",
+                    {
+                      "Ref": "HttpApiIntegrationInventoryDelete"
+                    }
+                  ]
+                ]
+              }
+            },
+            "DependsOn": "HttpApiIntegrationInventoryDelete"
+          },
+          "PetsTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "vet-clinic-pets-dev",
+              "BillingMode": "PAY_PER_REQUEST",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ]
+            }
+          },
+          "InventoryTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "vet-clinic-inventory-dev",
+              "BillingMode": "PAY_PER_REQUEST",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "id",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "id",
+                  "KeyType": "HASH"
+                }
+              ]
+            }
+          },
+          "FrontendBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "vet-clinic-frontend-dev",
+              "PublicAccessBlockConfiguration": {
+                "BlockPublicAcls": false,
+                "BlockPublicPolicy": false,
+                "IgnorePublicAcls": false,
+                "RestrictPublicBuckets": false
+              },
+              "WebsiteConfiguration": {
+                "IndexDocument": "index.html"
+              }
+            }
+          },
+          "FrontendBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "FrontendBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": "*",
+                    "Action": "s3:GetObject",
+                    "Resource": {
+                      "Fn::Sub": "${FrontendBucket.Arn}/*"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
+            "Export": {
+              "Name": "sls-vet-clinic-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "CreatePetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-CreatePetLambdaFunctionQualifiedArn"
+            }
+          },
+          "ListPetsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-ListPetsLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetPetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-GetPetLambdaFunctionQualifiedArn"
+            }
+          },
+          "UpdatePetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-UpdatePetLambdaFunctionQualifiedArn"
+            }
+          },
+          "DeletePetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-DeletePetLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryCreateLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryCreateLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryListLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryListLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryGetLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryGetLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryUpdateLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryUpdateLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryAdjustLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryAdjustLambdaFunctionQualifiedArn"
+            }
+          },
+          "InventoryDeleteLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-InventoryDeleteLambdaFunctionQualifiedArn"
+            }
+          },
+          "HttpApiId": {
+            "Description": "Id of the HTTP API",
+            "Value": {
+              "Ref": "HttpApi"
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-HttpApiId"
+            }
+          },
+          "HttpApiUrl": {
+            "Description": "URL of the HTTP API",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "HttpApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  }
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-vet-clinic-dev-HttpApiUrl"
+            }
+          },
+          "ApiUrl": {
+            "Value": {
+              "Fn::Sub": "https://${HttpApi}.execute-api.us-east-1.amazonaws.com"
+            }
+          },
+          "FrontendUrl": {
+            "Value": {
+              "Fn::Sub": "http://${FrontendBucket}.s3-website-us-east-1.amazonaws.com"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "pluginsData": {},
+    "functions": {
+      "createPet": {
+        "handler": "src/pets/create.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/pets",
+              "method": "POST"
+            },
+            "resolvedMethod": "POST",
+            "resolvedPath": "/pets"
+          }
+        ],
+        "name": "vet-clinic-dev-createPet",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+      },
+      "listPets": {
+        "handler": "src/pets/list.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/pets",
+              "method": "GET"
+            },
+            "resolvedMethod": "GET",
+            "resolvedPath": "/pets"
+          }
+        ],
+        "name": "vet-clinic-dev-listPets",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+      },
+      "getPet": {
+        "handler": "src/pets/get.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/pets/{id}",
+              "method": "GET"
+            },
+            "resolvedMethod": "GET",
+            "resolvedPath": "/pets/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-getPet",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+      },
+      "updatePet": {
+        "handler": "src/pets/update.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/pets/{id}",
+              "method": "PUT"
+            },
+            "resolvedMethod": "PUT",
+            "resolvedPath": "/pets/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-updatePet",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+      },
+      "deletePet": {
+        "handler": "src/pets/delete.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/pets/{id}",
+              "method": "DELETE"
+            },
+            "resolvedMethod": "DELETE",
+            "resolvedPath": "/pets/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-deletePet",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+      },
+      "inventoryCreate": {
+        "handler": "src/inventory/create.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory",
+              "method": "POST"
+            },
+            "resolvedMethod": "POST",
+            "resolvedPath": "/inventory"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryCreate",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+      },
+      "inventoryList": {
+        "handler": "src/inventory/list.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory",
+              "method": "GET"
+            },
+            "resolvedMethod": "GET",
+            "resolvedPath": "/inventory"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryList",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+      },
+      "inventoryGet": {
+        "handler": "src/inventory/get.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory/{id}",
+              "method": "GET"
+            },
+            "resolvedMethod": "GET",
+            "resolvedPath": "/inventory/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryGet",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+      },
+      "inventoryUpdate": {
+        "handler": "src/inventory/update.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory/{id}",
+              "method": "PUT"
+            },
+            "resolvedMethod": "PUT",
+            "resolvedPath": "/inventory/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryUpdate",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+      },
+      "inventoryAdjust": {
+        "handler": "src/inventory/adjust.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory/{id}/adjust",
+              "method": "PATCH"
+            },
+            "resolvedMethod": "PATCH",
+            "resolvedPath": "/inventory/{id}/adjust"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryAdjust",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+      },
+      "inventoryDelete": {
+        "handler": "src/inventory/delete.handler",
+        "events": [
+          {
+            "httpApi": {
+              "path": "/inventory/{id}",
+              "method": "DELETE"
+            },
+            "resolvedMethod": "DELETE",
+            "resolvedPath": "/inventory/{id}"
+          }
+        ],
+        "name": "vet-clinic-dev-inventoryDelete",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.12",
+        "vpc": {},
+        "versionLogicalId": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+      }
+    },
+    "resources": {
+      "Resources": {
+        "PetsTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "vet-clinic-pets-dev",
+            "BillingMode": "PAY_PER_REQUEST",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ]
+          }
+        },
+        "InventoryTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "vet-clinic-inventory-dev",
+            "BillingMode": "PAY_PER_REQUEST",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "id",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "id",
+                "KeyType": "HASH"
+              }
+            ]
+          }
+        },
+        "FrontendBucket": {
+          "Type": "AWS::S3::Bucket",
+          "Properties": {
+            "BucketName": "vet-clinic-frontend-dev",
+            "PublicAccessBlockConfiguration": {
+              "BlockPublicAcls": false,
+              "BlockPublicPolicy": false,
+              "IgnorePublicAcls": false,
+              "RestrictPublicBuckets": false
+            },
+            "WebsiteConfiguration": {
+              "IndexDocument": "index.html"
+            }
+          }
+        },
+        "FrontendBucketPolicy": {
+          "Type": "AWS::S3::BucketPolicy",
+          "Properties": {
+            "Bucket": {
+              "Ref": "FrontendBucket"
+            },
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Principal": "*",
+                  "Action": "s3:GetObject",
+                  "Resource": {
+                    "Fn::Sub": "${FrontendBucket.Arn}/*"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "Outputs": {
+        "ApiUrl": {
+          "Value": {
+            "Fn::Sub": "https://${HttpApi}.execute-api.us-east-1.amazonaws.com"
+          }
+        },
+        "FrontendUrl": {
+          "Value": {
+            "Fn::Sub": "http://${FrontendBucket}.s3-website-us-east-1.amazonaws.com"
+          }
+        }
+      }
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless",
+    "initialServerlessConfig": {
+      "service": "vet-clinic",
+      "frameworkVersion": "4",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "functions": {
+        "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "appId": null,
+    "orgId": null,
+    "layers": {},
+    "artifact": "C:\\Users\\Aluno\\Desktop\\clinica-vet\\vet-clinic-serveless\\.serverless\\vet-clinic.zip"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z",
+    "artifact": "vet-clinic.zip"
+  }
+}
