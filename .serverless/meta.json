@@ -4,7 +4,7 @@
     "servicePath": "C:\\Users\\Aluno\\Desktop\\clinica-vet\\vet-clinic-serveless\\serverless.yml",
     "serviceConfigFileName": "serverless.yml",
     "service": {
-      "service": "vet-clinic",
+      "service": "vet-clinic-guilherme-inventory",
       "frameworkVersion": "4",
       "provider": {
         "name": "aws",
@@ -12,9 +12,9 @@
         "region": "us-east-1",
         "stage": "dev",
         "environment": {
-          "PETS_TABLE": "vet-clinic-pets-dev",
-          "TABLE_NAME": "vet-clinic-inventory-dev",
-          "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+          "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+          "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+          "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
         },
         "iam": {
           "role": {
@@ -54,67 +54,67 @@
             "CreatePetLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-createPet"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-createPet"
               }
             },
             "ListPetsLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-listPets"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-listPets"
               }
             },
             "GetPetLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-getPet"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-getPet"
               }
             },
             "UpdatePetLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-updatePet"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-updatePet"
               }
             },
             "DeletePetLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-deletePet"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-deletePet"
               }
             },
             "InventoryCreateLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryCreate"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryCreate"
               }
             },
             "InventoryListLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryList"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryList"
               }
             },
             "InventoryGetLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryGet"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryGet"
               }
             },
             "InventoryUpdateLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryUpdate"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryUpdate"
               }
             },
             "InventoryAdjustLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryAdjust"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryAdjust"
               }
             },
             "InventoryDeleteLogGroup": {
               "Type": "AWS::Logs::LogGroup",
               "Properties": {
-                "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryDelete"
+                "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryDelete"
               }
             },
             "IamRoleLambdaExecution": {
@@ -142,7 +142,7 @@
                       "Fn::Join": [
                         "-",
                         [
-                          "vet-clinic",
+                          "vet-clinic-guilherme-inventory",
                           "dev",
                           "lambda"
                         ]
@@ -160,7 +160,7 @@
                           ],
                           "Resource": [
                             {
-                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*"
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*"
                             }
                           ]
                         },
@@ -171,7 +171,7 @@
                           ],
                           "Resource": [
                             {
-                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*:*"
+                              "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*:*"
                             }
                           ]
                         },
@@ -208,7 +208,7 @@
                   "Fn::Join": [
                     "-",
                     [
-                      "vet-clinic",
+                      "vet-clinic-guilherme-inventory",
                       "dev",
                       {
                         "Ref": "AWS::Region"
@@ -224,18 +224,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/pets/create.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-createPet",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-createPet",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -254,18 +254,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/pets/list.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-listPets",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-listPets",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -284,18 +284,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/pets/get.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-getPet",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-getPet",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -314,18 +314,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/pets/update.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-updatePet",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-updatePet",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -344,18 +344,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/pets/delete.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-deletePet",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-deletePet",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -374,18 +374,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/create.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryCreate",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryCreate",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -404,18 +404,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/list.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryList",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryList",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -434,18 +434,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/get.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryGet",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryGet",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -464,18 +464,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/update.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryUpdate",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryUpdate",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -494,18 +494,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/adjust.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryAdjust",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryAdjust",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -524,18 +524,18 @@
               "Properties": {
                 "Code": {
                   "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                  "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                  "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
                 },
                 "Handler": "src/inventory/delete.handler",
                 "Runtime": "python3.12",
-                "FunctionName": "vet-clinic-dev-inventoryDelete",
+                "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryDelete",
                 "MemorySize": 1024,
                 "Timeout": 6,
                 "Environment": {
                   "Variables": {
-                    "PETS_TABLE": "vet-clinic-pets-dev",
-                    "TABLE_NAME": "vet-clinic-inventory-dev",
-                    "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                    "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                    "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                    "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                   }
                 },
                 "Role": {
@@ -549,120 +549,120 @@
                 "InventoryDeleteLogGroup"
               ]
             },
-            "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0": {
+            "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "CreatePetLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY": {
+            "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "ListPetsLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI": {
+            "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "GetPetLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE": {
+            "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "UpdatePetLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE": {
+            "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "DeletePetLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0": {
+            "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryCreateLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w": {
+            "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryListLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs": {
+            "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryGetLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4": {
+            "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryUpdateLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU": {
+            "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryAdjustLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
-            "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4": {
+            "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s": {
               "Type": "AWS::Lambda::Version",
               "DeletionPolicy": "Retain",
               "Properties": {
                 "FunctionName": {
                   "Ref": "InventoryDeleteLambdaFunction"
                 },
-                "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+                "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
               }
             },
             "HttpApi": {
               "Type": "AWS::ApiGatewayV2::Api",
               "Properties": {
-                "Name": "dev-vet-clinic",
+                "Name": "dev-vet-clinic-guilherme-inventory",
                 "ProtocolType": "HTTP"
               }
             },
@@ -1507,7 +1507,7 @@
             "PetsTable": {
               "Type": "AWS::DynamoDB::Table",
               "Properties": {
-                "TableName": "vet-clinic-pets-dev",
+                "TableName": "vet-clinic-guilherme-inventory-pets-dev",
                 "BillingMode": "PAY_PER_REQUEST",
                 "AttributeDefinitions": [
                   {
@@ -1526,7 +1526,7 @@
             "InventoryTable": {
               "Type": "AWS::DynamoDB::Table",
               "Properties": {
-                "TableName": "vet-clinic-inventory-dev",
+                "TableName": "vet-clinic-guilherme-inventory-inventory-dev",
                 "BillingMode": "PAY_PER_REQUEST",
                 "AttributeDefinitions": [
                   {
@@ -1545,7 +1545,7 @@
             "FrontendBucket": {
               "Type": "AWS::S3::Bucket",
               "Properties": {
-                "BucketName": "vet-clinic-frontend-dev",
+                "BucketName": "vet-clinic-guilherme-inventory-frontend-dev",
                 "PublicAccessBlockConfiguration": {
                   "BlockPublicAcls": false,
                   "BlockPublicPolicy": false,
@@ -1582,106 +1582,106 @@
             "ServerlessDeploymentBucketName": {
               "Value": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
               "Export": {
-                "Name": "sls-vet-clinic-dev-ServerlessDeploymentBucketName"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-ServerlessDeploymentBucketName"
               }
             },
             "CreatePetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+                "Ref": "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-CreatePetLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-CreatePetLambdaFunctionQualifiedArn"
               }
             },
             "ListPetsLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+                "Ref": "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-ListPetsLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-ListPetsLambdaFunctionQualifiedArn"
               }
             },
             "GetPetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+                "Ref": "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-GetPetLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-GetPetLambdaFunctionQualifiedArn"
               }
             },
             "UpdatePetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+                "Ref": "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-UpdatePetLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-UpdatePetLambdaFunctionQualifiedArn"
               }
             },
             "DeletePetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+                "Ref": "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-DeletePetLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-DeletePetLambdaFunctionQualifiedArn"
               }
             },
             "InventoryCreateLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+                "Ref": "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryCreateLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryCreateLambdaFunctionQualifiedArn"
               }
             },
             "InventoryListLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+                "Ref": "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryListLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryListLambdaFunctionQualifiedArn"
               }
             },
             "InventoryGetLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+                "Ref": "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryGetLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryGetLambdaFunctionQualifiedArn"
               }
             },
             "InventoryUpdateLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+                "Ref": "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryUpdateLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryUpdateLambdaFunctionQualifiedArn"
               }
             },
             "InventoryAdjustLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+                "Ref": "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryAdjustLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryAdjustLambdaFunctionQualifiedArn"
               }
             },
             "InventoryDeleteLambdaFunctionQualifiedArn": {
               "Description": "Current Lambda function version",
               "Value": {
-                "Ref": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+                "Ref": "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-InventoryDeleteLambdaFunctionQualifiedArn"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryDeleteLambdaFunctionQualifiedArn"
               }
             },
             "HttpApiId": {
@@ -1690,7 +1690,7 @@
                 "Ref": "HttpApi"
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-HttpApiId"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiId"
               }
             },
             "HttpApiUrl": {
@@ -1715,7 +1715,7 @@
                 ]
               },
               "Export": {
-                "Name": "sls-vet-clinic-dev-HttpApiUrl"
+                "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiUrl"
               }
             },
             "ApiUrl": {
@@ -1745,13 +1745,13 @@
               "resolvedPath": "/pets"
             }
           ],
-          "name": "vet-clinic-dev-createPet",
+          "name": "vet-clinic-guilherme-inventory-dev-createPet",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+          "versionLogicalId": "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8"
         },
         "listPets": {
           "handler": "src/pets/list.handler",
@@ -1765,13 +1765,13 @@
               "resolvedPath": "/pets"
             }
           ],
-          "name": "vet-clinic-dev-listPets",
+          "name": "vet-clinic-guilherme-inventory-dev-listPets",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+          "versionLogicalId": "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw"
         },
         "getPet": {
           "handler": "src/pets/get.handler",
@@ -1785,13 +1785,13 @@
               "resolvedPath": "/pets/{id}"
             }
           ],
-          "name": "vet-clinic-dev-getPet",
+          "name": "vet-clinic-guilherme-inventory-dev-getPet",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+          "versionLogicalId": "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ"
         },
         "updatePet": {
           "handler": "src/pets/update.handler",
@@ -1805,13 +1805,13 @@
               "resolvedPath": "/pets/{id}"
             }
           ],
-          "name": "vet-clinic-dev-updatePet",
+          "name": "vet-clinic-guilherme-inventory-dev-updatePet",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+          "versionLogicalId": "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY"
         },
         "deletePet": {
           "handler": "src/pets/delete.handler",
@@ -1825,13 +1825,13 @@
               "resolvedPath": "/pets/{id}"
             }
           ],
-          "name": "vet-clinic-dev-deletePet",
+          "name": "vet-clinic-guilherme-inventory-dev-deletePet",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+          "versionLogicalId": "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ"
         },
         "inventoryCreate": {
           "handler": "src/inventory/create.handler",
@@ -1845,13 +1845,13 @@
               "resolvedPath": "/inventory"
             }
           ],
-          "name": "vet-clinic-dev-inventoryCreate",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryCreate",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+          "versionLogicalId": "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc"
         },
         "inventoryList": {
           "handler": "src/inventory/list.handler",
@@ -1865,13 +1865,13 @@
               "resolvedPath": "/inventory"
             }
           ],
-          "name": "vet-clinic-dev-inventoryList",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryList",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+          "versionLogicalId": "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI"
         },
         "inventoryGet": {
           "handler": "src/inventory/get.handler",
@@ -1885,13 +1885,13 @@
               "resolvedPath": "/inventory/{id}"
             }
           ],
-          "name": "vet-clinic-dev-inventoryGet",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryGet",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+          "versionLogicalId": "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c"
         },
         "inventoryUpdate": {
           "handler": "src/inventory/update.handler",
@@ -1905,13 +1905,13 @@
               "resolvedPath": "/inventory/{id}"
             }
           ],
-          "name": "vet-clinic-dev-inventoryUpdate",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryUpdate",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+          "versionLogicalId": "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo"
         },
         "inventoryAdjust": {
           "handler": "src/inventory/adjust.handler",
@@ -1925,13 +1925,13 @@
               "resolvedPath": "/inventory/{id}/adjust"
             }
           ],
-          "name": "vet-clinic-dev-inventoryAdjust",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryAdjust",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+          "versionLogicalId": "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A"
         },
         "inventoryDelete": {
           "handler": "src/inventory/delete.handler",
@@ -1945,13 +1945,13 @@
               "resolvedPath": "/inventory/{id}"
             }
           ],
-          "name": "vet-clinic-dev-inventoryDelete",
+          "name": "vet-clinic-guilherme-inventory-dev-inventoryDelete",
           "package": {},
           "memory": 1024,
           "timeout": 6,
           "runtime": "python3.12",
           "vpc": {},
-          "versionLogicalId": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+          "versionLogicalId": "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s"
         }
       },
       "resources": {
@@ -1959,7 +1959,7 @@
           "PetsTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "vet-clinic-pets-dev",
+              "TableName": "vet-clinic-guilherme-inventory-pets-dev",
               "BillingMode": "PAY_PER_REQUEST",
               "AttributeDefinitions": [
                 {
@@ -1978,7 +1978,7 @@
           "InventoryTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "vet-clinic-inventory-dev",
+              "TableName": "vet-clinic-guilherme-inventory-inventory-dev",
               "BillingMode": "PAY_PER_REQUEST",
               "AttributeDefinitions": [
                 {
@@ -1997,7 +1997,7 @@
           "FrontendBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-              "BucketName": "vet-clinic-frontend-dev",
+              "BucketName": "vet-clinic-guilherme-inventory-frontend-dev",
               "PublicAccessBlockConfiguration": {
                 "BlockPublicAcls": false,
                 "BlockPublicPolicy": false,
@@ -2050,9 +2050,9 @@
       "region": "us-east-1",
       "stage": "dev",
       "environment": {
-        "PETS_TABLE": "vet-clinic-pets-dev",
-        "TABLE_NAME": "vet-clinic-inventory-dev",
-        "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+        "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+        "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+        "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
       },
       "iam": {
         "role": {
@@ -2092,67 +2092,67 @@
           "CreatePetLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-createPet"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-createPet"
             }
           },
           "ListPetsLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-listPets"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-listPets"
             }
           },
           "GetPetLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-getPet"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-getPet"
             }
           },
           "UpdatePetLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-updatePet"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-updatePet"
             }
           },
           "DeletePetLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-deletePet"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-deletePet"
             }
           },
           "InventoryCreateLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryCreate"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryCreate"
             }
           },
           "InventoryListLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryList"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryList"
             }
           },
           "InventoryGetLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryGet"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryGet"
             }
           },
           "InventoryUpdateLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryUpdate"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryUpdate"
             }
           },
           "InventoryAdjustLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryAdjust"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryAdjust"
             }
           },
           "InventoryDeleteLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryDelete"
+              "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryDelete"
             }
           },
           "IamRoleLambdaExecution": {
@@ -2180,7 +2180,7 @@
                     "Fn::Join": [
                       "-",
                       [
-                        "vet-clinic",
+                        "vet-clinic-guilherme-inventory",
                         "dev",
                         "lambda"
                       ]
@@ -2198,7 +2198,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*"
                           }
                         ]
                       },
@@ -2209,7 +2209,7 @@
                         ],
                         "Resource": [
                           {
-                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*:*"
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*:*"
                           }
                         ]
                       },
@@ -2246,7 +2246,7 @@
                 "Fn::Join": [
                   "-",
                   [
-                    "vet-clinic",
+                    "vet-clinic-guilherme-inventory",
                     "dev",
                     {
                       "Ref": "AWS::Region"
@@ -2262,18 +2262,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/pets/create.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-createPet",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-createPet",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2292,18 +2292,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/pets/list.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-listPets",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-listPets",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2322,18 +2322,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/pets/get.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-getPet",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-getPet",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2352,18 +2352,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/pets/update.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-updatePet",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-updatePet",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2382,18 +2382,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/pets/delete.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-deletePet",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-deletePet",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2412,18 +2412,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/create.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryCreate",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryCreate",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2442,18 +2442,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/list.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryList",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryList",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2472,18 +2472,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/get.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryGet",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryGet",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2502,18 +2502,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/update.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryUpdate",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryUpdate",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2532,18 +2532,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/adjust.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryAdjust",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryAdjust",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2562,18 +2562,18 @@
             "Properties": {
               "Code": {
                 "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-                "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+                "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
               },
               "Handler": "src/inventory/delete.handler",
               "Runtime": "python3.12",
-              "FunctionName": "vet-clinic-dev-inventoryDelete",
+              "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryDelete",
               "MemorySize": 1024,
               "Timeout": 6,
               "Environment": {
                 "Variables": {
-                  "PETS_TABLE": "vet-clinic-pets-dev",
-                  "TABLE_NAME": "vet-clinic-inventory-dev",
-                  "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                  "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                  "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                  "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
                 }
               },
               "Role": {
@@ -2587,120 +2587,120 @@
               "InventoryDeleteLogGroup"
             ]
           },
-          "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0": {
+          "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CreatePetLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY": {
+          "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "ListPetsLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI": {
+          "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetPetLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE": {
+          "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "UpdatePetLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE": {
+          "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "DeletePetLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0": {
+          "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryCreateLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w": {
+          "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryListLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs": {
+          "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryGetLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4": {
+          "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryUpdateLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU": {
+          "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryAdjustLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
-          "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4": {
+          "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "InventoryDeleteLambdaFunction"
               },
-              "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+              "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
             }
           },
           "HttpApi": {
             "Type": "AWS::ApiGatewayV2::Api",
             "Properties": {
-              "Name": "dev-vet-clinic",
+              "Name": "dev-vet-clinic-guilherme-inventory",
               "ProtocolType": "HTTP"
             }
           },
@@ -3545,7 +3545,7 @@
           "PetsTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "vet-clinic-pets-dev",
+              "TableName": "vet-clinic-guilherme-inventory-pets-dev",
               "BillingMode": "PAY_PER_REQUEST",
               "AttributeDefinitions": [
                 {
@@ -3564,7 +3564,7 @@
           "InventoryTable": {
             "Type": "AWS::DynamoDB::Table",
             "Properties": {
-              "TableName": "vet-clinic-inventory-dev",
+              "TableName": "vet-clinic-guilherme-inventory-inventory-dev",
               "BillingMode": "PAY_PER_REQUEST",
               "AttributeDefinitions": [
                 {
@@ -3583,7 +3583,7 @@
           "FrontendBucket": {
             "Type": "AWS::S3::Bucket",
             "Properties": {
-              "BucketName": "vet-clinic-frontend-dev",
+              "BucketName": "vet-clinic-guilherme-inventory-frontend-dev",
               "PublicAccessBlockConfiguration": {
                 "BlockPublicAcls": false,
                 "BlockPublicPolicy": false,
@@ -3620,106 +3620,106 @@
           "ServerlessDeploymentBucketName": {
             "Value": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
             "Export": {
-              "Name": "sls-vet-clinic-dev-ServerlessDeploymentBucketName"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-ServerlessDeploymentBucketName"
             }
           },
           "CreatePetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+              "Ref": "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-CreatePetLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-CreatePetLambdaFunctionQualifiedArn"
             }
           },
           "ListPetsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+              "Ref": "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-ListPetsLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-ListPetsLambdaFunctionQualifiedArn"
             }
           },
           "GetPetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+              "Ref": "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-GetPetLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-GetPetLambdaFunctionQualifiedArn"
             }
           },
           "UpdatePetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+              "Ref": "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-UpdatePetLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-UpdatePetLambdaFunctionQualifiedArn"
             }
           },
           "DeletePetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+              "Ref": "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-DeletePetLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-DeletePetLambdaFunctionQualifiedArn"
             }
           },
           "InventoryCreateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+              "Ref": "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryCreateLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryCreateLambdaFunctionQualifiedArn"
             }
           },
           "InventoryListLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+              "Ref": "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryListLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryListLambdaFunctionQualifiedArn"
             }
           },
           "InventoryGetLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+              "Ref": "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryGetLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryGetLambdaFunctionQualifiedArn"
             }
           },
           "InventoryUpdateLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+              "Ref": "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryUpdateLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryUpdateLambdaFunctionQualifiedArn"
             }
           },
           "InventoryAdjustLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+              "Ref": "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryAdjustLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryAdjustLambdaFunctionQualifiedArn"
             }
           },
           "InventoryDeleteLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+              "Ref": "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-InventoryDeleteLambdaFunctionQualifiedArn"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryDeleteLambdaFunctionQualifiedArn"
             }
           },
           "HttpApiId": {
@@ -3728,7 +3728,7 @@
               "Ref": "HttpApi"
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-HttpApiId"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiId"
             }
           },
           "HttpApiUrl": {
@@ -3753,7 +3753,7 @@
               ]
             },
             "Export": {
-              "Name": "sls-vet-clinic-dev-HttpApiUrl"
+              "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiUrl"
             }
           },
           "ApiUrl": {
@@ -3779,7 +3779,7 @@
       "serviceProvider": null,
       "instanceParameters": null
     },
-    "serviceRawFile": "service: vet-clinic\r\n\r\nframeworkVersion: \"4\"\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: python3.12\r\n  region: us-east-1\r\n  stage: ${opt:stage, 'dev'}\r\n  environment:\r\n    PETS_TABLE: ${self:service}-pets-${self:provider.stage}\r\n    TABLE_NAME: ${self:service}-inventory-${self:provider.stage}\r\n    FRONTEND_BUCKET: ${self:service}-frontend-${self:provider.stage}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:PutItem\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n            - dynamodb:DeleteItem\r\n            - dynamodb:Scan\r\n          Resource:\r\n            - !GetAtt PetsTable.Arn\r\n            - !GetAtt InventoryTable.Arn\r\n\r\nfunctions:\r\n\r\n  # -------------------------\r\n  # PETS\r\n  # -------------------------\r\n  createPet:\r\n    handler: src/pets/create.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets\r\n          method: POST\r\n\r\n  listPets:\r\n    handler: src/pets/list.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets\r\n          method: GET\r\n\r\n  getPet:\r\n    handler: src/pets/get.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: GET\r\n\r\n  updatePet:\r\n    handler: src/pets/update.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: PUT\r\n\r\n  deletePet:\r\n    handler: src/pets/delete.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: DELETE\r\n\r\n  # -------------------------\r\n  # INVENTORY\r\n  # -------------------------\r\n  inventoryCreate:\r\n    handler: src/inventory/create.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory\r\n          method: POST\r\n\r\n  inventoryList:\r\n    handler: src/inventory/list.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory\r\n          method: GET\r\n\r\n  inventoryGet:\r\n    handler: src/inventory/get.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: GET\r\n\r\n  inventoryUpdate:\r\n    handler: src/inventory/update.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: PUT\r\n\r\n  inventoryAdjust:\r\n    handler: src/inventory/adjust.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}/adjust\r\n          method: PATCH\r\n\r\n  inventoryDelete:\r\n    handler: src/inventory/delete.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: DELETE\r\n\r\nresources:\r\n  Resources:\r\n\r\n    PetsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: ${self:provider.environment.PETS_TABLE}\r\n        BillingMode: PAY_PER_REQUEST\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n\r\n    InventoryTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: ${self:provider.environment.TABLE_NAME}\r\n        BillingMode: PAY_PER_REQUEST\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n\r\n    FrontendBucket:\r\n      Type: AWS::S3::Bucket\r\n      Properties:\r\n        BucketName: ${self:provider.environment.FRONTEND_BUCKET}\r\n        PublicAccessBlockConfiguration:\r\n          BlockPublicAcls: false\r\n          BlockPublicPolicy: false\r\n          IgnorePublicAcls: false\r\n          RestrictPublicBuckets: false\r\n        WebsiteConfiguration:\r\n          IndexDocument: index.html\r\n\r\n    FrontendBucketPolicy:\r\n      Type: AWS::S3::BucketPolicy\r\n      Properties:\r\n        Bucket: !Ref FrontendBucket\r\n        PolicyDocument:\r\n          Statement:\r\n            - Effect: Allow\r\n              Principal: '*'\r\n              Action: s3:GetObject\r\n              Resource: !Sub '${FrontendBucket.Arn}/*'\r\n\r\n  Outputs:\r\n    ApiUrl:\r\n      Value: !Sub 'https://${HttpApi}.execute-api.${self:provider.region}.amazonaws.com'\r\n    FrontendUrl:\r\n      Value: !Sub 'http://${FrontendBucket}.s3-website-${self:provider.region}.amazonaws.com'",
+    "serviceRawFile": "service: vet-clinic-guilherme-inventory\r\n\r\nframeworkVersion: \"4\"\r\n\r\nprovider:\r\n  name: aws\r\n  runtime: python3.12\r\n  region: us-east-1\r\n  stage: ${opt:stage, 'dev'}\r\n  environment:\r\n    PETS_TABLE: ${self:service}-pets-${self:provider.stage}\r\n    TABLE_NAME: ${self:service}-inventory-${self:provider.stage}\r\n    FRONTEND_BUCKET: ${self:service}-frontend-${self:provider.stage}\r\n  iam:\r\n    role:\r\n      statements:\r\n        - Effect: Allow\r\n          Action:\r\n            - dynamodb:PutItem\r\n            - dynamodb:GetItem\r\n            - dynamodb:UpdateItem\r\n            - dynamodb:DeleteItem\r\n            - dynamodb:Scan\r\n          Resource:\r\n            - !GetAtt PetsTable.Arn\r\n            - !GetAtt InventoryTable.Arn\r\n\r\nfunctions:\r\n\r\n  # -------------------------\r\n  # PETS\r\n  # -------------------------\r\n  createPet:\r\n    handler: src/pets/create.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets\r\n          method: POST\r\n\r\n  listPets:\r\n    handler: src/pets/list.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets\r\n          method: GET\r\n\r\n  getPet:\r\n    handler: src/pets/get.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: GET\r\n\r\n  updatePet:\r\n    handler: src/pets/update.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: PUT\r\n\r\n  deletePet:\r\n    handler: src/pets/delete.handler\r\n    events:\r\n      - httpApi:\r\n          path: /pets/{id}\r\n          method: DELETE\r\n\r\n  # -------------------------\r\n  # INVENTORY\r\n  # -------------------------\r\n  inventoryCreate:\r\n    handler: src/inventory/create.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory\r\n          method: POST\r\n\r\n  inventoryList:\r\n    handler: src/inventory/list.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory\r\n          method: GET\r\n\r\n  inventoryGet:\r\n    handler: src/inventory/get.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: GET\r\n\r\n  inventoryUpdate:\r\n    handler: src/inventory/update.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: PUT\r\n\r\n  inventoryAdjust:\r\n    handler: src/inventory/adjust.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}/adjust\r\n          method: PATCH\r\n\r\n  inventoryDelete:\r\n    handler: src/inventory/delete.handler\r\n    events:\r\n      - httpApi:\r\n          path: /inventory/{id}\r\n          method: DELETE\r\n\r\nresources:\r\n  Resources:\r\n\r\n    PetsTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: ${self:provider.environment.PETS_TABLE}\r\n        BillingMode: PAY_PER_REQUEST\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n\r\n    InventoryTable:\r\n      Type: AWS::DynamoDB::Table\r\n      Properties:\r\n        TableName: ${self:provider.environment.TABLE_NAME}\r\n        BillingMode: PAY_PER_REQUEST\r\n        AttributeDefinitions:\r\n          - AttributeName: id\r\n            AttributeType: S\r\n        KeySchema:\r\n          - AttributeName: id\r\n            KeyType: HASH\r\n\r\n    FrontendBucket:\r\n      Type: AWS::S3::Bucket\r\n      Properties:\r\n        BucketName: ${self:provider.environment.FRONTEND_BUCKET}\r\n        PublicAccessBlockConfiguration:\r\n          BlockPublicAcls: false\r\n          BlockPublicPolicy: false\r\n          IgnorePublicAcls: false\r\n          RestrictPublicBuckets: false\r\n        WebsiteConfiguration:\r\n          IndexDocument: index.html\r\n\r\n    FrontendBucketPolicy:\r\n      Type: AWS::S3::BucketPolicy\r\n      Properties:\r\n        Bucket: !Ref FrontendBucket\r\n        PolicyDocument:\r\n          Statement:\r\n            - Effect: Allow\r\n              Principal: '*'\r\n              Action: s3:GetObject\r\n              Resource: !Sub '${FrontendBucket.Arn}/*'\r\n\r\n  Outputs:\r\n    ApiUrl:\r\n      Value: !Sub 'https://${HttpApi}.execute-api.${self:provider.region}.amazonaws.com'\r\n    FrontendUrl:\r\n      Value: !Sub 'http://${FrontendBucket}.s3-website-${self:provider.region}.amazonaws.com'",
     "command": [
       "deploy"
     ],
@@ -3791,102 +3791,102 @@
     "userId": "VJpJtHMCzB2ysHxxsY",
     "userName": "guilherme188zz",
     "serviceProviderAwsAccountId": "597710275873",
-    "serviceProviderAwsCfStackName": "vet-clinic-dev",
-    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:597710275873:stack/vet-clinic-dev/dd246430-224a-11f1-9084-0e6ffdf9a4c7",
-    "serviceProviderAwsCfStackCreated": "2026-03-17T21:47:15.961Z",
-    "serviceProviderAwsCfStackUpdated": "2026-03-18T00:30:12.291Z",
-    "serviceProviderAwsCfStackStatus": "UPDATE_COMPLETE",
+    "serviceProviderAwsCfStackName": "vet-clinic-guilherme-inventory-dev",
+    "serviceProviderAwsCfStackId": "arn:aws:cloudformation:us-east-1:597710275873:stack/vet-clinic-guilherme-inventory-dev/1c4c1d10-231d-11f1-8759-12976171a477",
+    "serviceProviderAwsCfStackCreated": "2026-03-18T22:52:16.212Z",
+    "serviceProviderAwsCfStackUpdated": null,
+    "serviceProviderAwsCfStackStatus": "CREATE_COMPLETE",
     "serviceProviderAwsCfStackOutputs": [
       {
         "OutputKey": "DeletePetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-deletePet:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-deletePet:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-DeletePetLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-DeletePetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "GetPetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-getPet:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-getPet:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-GetPetLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-GetPetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "UpdatePetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-updatePet:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-updatePet:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-UpdatePetLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-UpdatePetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "InventoryListLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryList:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryList:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryListLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryListLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "InventoryAdjustLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryAdjust:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryAdjust:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryAdjustLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryAdjustLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ListPetsLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-listPets:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-listPets:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-ListPetsLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-ListPetsLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "InventoryDeleteLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryDelete:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryDelete:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryDeleteLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryDeleteLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "HttpApiId",
-        "OutputValue": "2vw5mbz8al",
+        "OutputValue": "2luzetae83",
         "Description": "Id of the HTTP API",
-        "ExportName": "sls-vet-clinic-dev-HttpApiId"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-HttpApiId"
       },
       {
         "OutputKey": "FrontendUrl",
-        "OutputValue": "http://vet-clinic-frontend-dev.s3-website-us-east-1.amazonaws.com"
+        "OutputValue": "http://vet-clinic-guilherme-inventory-frontend-dev.s3-website-us-east-1.amazonaws.com"
       },
       {
         "OutputKey": "ServerlessDeploymentBucketName",
         "OutputValue": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-        "ExportName": "sls-vet-clinic-dev-ServerlessDeploymentBucketName"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-ServerlessDeploymentBucketName"
       },
       {
         "OutputKey": "InventoryCreateLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryCreate:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryCreate:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryCreateLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryCreateLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "HttpApiUrl",
-        "OutputValue": "https://2vw5mbz8al.execute-api.us-east-1.amazonaws.com",
+        "OutputValue": "https://2luzetae83.execute-api.us-east-1.amazonaws.com",
         "Description": "URL of the HTTP API",
-        "ExportName": "sls-vet-clinic-dev-HttpApiUrl"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-HttpApiUrl"
       },
       {
         "OutputKey": "CreatePetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-createPet:4",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-createPet:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-CreatePetLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-CreatePetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "ApiUrl",
-        "OutputValue": "https://2vw5mbz8al.execute-api.us-east-1.amazonaws.com"
+        "OutputValue": "https://2luzetae83.execute-api.us-east-1.amazonaws.com"
       },
       {
         "OutputKey": "InventoryGetLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryGet:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryGet:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryGetLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryGetLambdaFunctionQualifiedArn"
       },
       {
         "OutputKey": "InventoryUpdateLambdaFunctionQualifiedArn",
-        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-dev-inventoryUpdate:1",
+        "OutputValue": "arn:aws:lambda:us-east-1:597710275873:function:vet-clinic-guilherme-inventory-dev-inventoryUpdate:1",
         "Description": "Current Lambda function version",
-        "ExportName": "sls-vet-clinic-dev-InventoryUpdateLambdaFunctionQualifiedArn"
+        "ExportName": "sls-vet-clinic-guilherme-inventory-dev-InventoryUpdateLambdaFunctionQualifiedArn"
       }
     ],
     "compiledCloudFormationTemplate": {
@@ -3896,67 +3896,67 @@
         "CreatePetLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-createPet"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-createPet"
           }
         },
         "ListPetsLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-listPets"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-listPets"
           }
         },
         "GetPetLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-getPet"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-getPet"
           }
         },
         "UpdatePetLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-updatePet"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-updatePet"
           }
         },
         "DeletePetLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-deletePet"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-deletePet"
           }
         },
         "InventoryCreateLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryCreate"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryCreate"
           }
         },
         "InventoryListLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryList"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryList"
           }
         },
         "InventoryGetLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryGet"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryGet"
           }
         },
         "InventoryUpdateLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryUpdate"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryUpdate"
           }
         },
         "InventoryAdjustLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryAdjust"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryAdjust"
           }
         },
         "InventoryDeleteLogGroup": {
           "Type": "AWS::Logs::LogGroup",
           "Properties": {
-            "LogGroupName": "/aws/lambda/vet-clinic-dev-inventoryDelete"
+            "LogGroupName": "/aws/lambda/vet-clinic-guilherme-inventory-dev-inventoryDelete"
           }
         },
         "IamRoleLambdaExecution": {
@@ -3984,7 +3984,7 @@
                   "Fn::Join": [
                     "-",
                     [
-                      "vet-clinic",
+                      "vet-clinic-guilherme-inventory",
                       "dev",
                       "lambda"
                     ]
@@ -4002,7 +4002,7 @@
                       ],
                       "Resource": [
                         {
-                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*"
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*"
                         }
                       ]
                     },
@@ -4013,7 +4013,7 @@
                       ],
                       "Resource": [
                         {
-                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-dev*:*:*"
+                          "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/vet-clinic-guilherme-inventory-dev*:*:*"
                         }
                       ]
                     },
@@ -4050,7 +4050,7 @@
               "Fn::Join": [
                 "-",
                 [
-                  "vet-clinic",
+                  "vet-clinic-guilherme-inventory",
                   "dev",
                   {
                     "Ref": "AWS::Region"
@@ -4066,18 +4066,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/pets/create.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-createPet",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-createPet",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4096,18 +4096,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/pets/list.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-listPets",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-listPets",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4126,18 +4126,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/pets/get.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-getPet",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-getPet",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4156,18 +4156,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/pets/update.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-updatePet",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-updatePet",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4186,18 +4186,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/pets/delete.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-deletePet",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-deletePet",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4216,18 +4216,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/create.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryCreate",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryCreate",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4246,18 +4246,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/list.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryList",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryList",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4276,18 +4276,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/get.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryGet",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryGet",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4306,18 +4306,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/update.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryUpdate",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryUpdate",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4336,18 +4336,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/adjust.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryAdjust",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryAdjust",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4366,18 +4366,18 @@
           "Properties": {
             "Code": {
               "S3Bucket": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
-              "S3Key": "serverless/vet-clinic/dev/1773794499311-2026-03-18T00:41:39.311Z/vet-clinic.zip"
+              "S3Key": "serverless/vet-clinic-guilherme-inventory/dev/1773874329186-2026-03-18T22:52:09.186Z/vet-clinic-guilherme-inventory.zip"
             },
             "Handler": "src/inventory/delete.handler",
             "Runtime": "python3.12",
-            "FunctionName": "vet-clinic-dev-inventoryDelete",
+            "FunctionName": "vet-clinic-guilherme-inventory-dev-inventoryDelete",
             "MemorySize": 1024,
             "Timeout": 6,
             "Environment": {
               "Variables": {
-                "PETS_TABLE": "vet-clinic-pets-dev",
-                "TABLE_NAME": "vet-clinic-inventory-dev",
-                "FRONTEND_BUCKET": "vet-clinic-frontend-dev"
+                "PETS_TABLE": "vet-clinic-guilherme-inventory-pets-dev",
+                "TABLE_NAME": "vet-clinic-guilherme-inventory-inventory-dev",
+                "FRONTEND_BUCKET": "vet-clinic-guilherme-inventory-frontend-dev"
               }
             },
             "Role": {
@@ -4391,120 +4391,120 @@
             "InventoryDeleteLogGroup"
           ]
         },
-        "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0": {
+        "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "CreatePetLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY": {
+        "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "ListPetsLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI": {
+        "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "GetPetLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE": {
+        "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "UpdatePetLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE": {
+        "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "DeletePetLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0": {
+        "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryCreateLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w": {
+        "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryListLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs": {
+        "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryGetLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4": {
+        "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryUpdateLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU": {
+        "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryAdjustLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
-        "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4": {
+        "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s": {
           "Type": "AWS::Lambda::Version",
           "DeletionPolicy": "Retain",
           "Properties": {
             "FunctionName": {
               "Ref": "InventoryDeleteLambdaFunction"
             },
-            "CodeSha256": "AUK6YQUYrTyoCtfR6vHhQhNWvc9pg3zFfHi4FZ/vRoc="
+            "CodeSha256": "cgw6o6wAYpKwj+6ue2s/sk/xYGds7f6ivqsvf3pOlmA="
           }
         },
         "HttpApi": {
           "Type": "AWS::ApiGatewayV2::Api",
           "Properties": {
-            "Name": "dev-vet-clinic",
+            "Name": "dev-vet-clinic-guilherme-inventory",
             "ProtocolType": "HTTP"
           }
         },
@@ -5349,7 +5349,7 @@
         "PetsTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
-            "TableName": "vet-clinic-pets-dev",
+            "TableName": "vet-clinic-guilherme-inventory-pets-dev",
             "BillingMode": "PAY_PER_REQUEST",
             "AttributeDefinitions": [
               {
@@ -5368,7 +5368,7 @@
         "InventoryTable": {
           "Type": "AWS::DynamoDB::Table",
           "Properties": {
-            "TableName": "vet-clinic-inventory-dev",
+            "TableName": "vet-clinic-guilherme-inventory-inventory-dev",
             "BillingMode": "PAY_PER_REQUEST",
             "AttributeDefinitions": [
               {
@@ -5387,7 +5387,7 @@
         "FrontendBucket": {
           "Type": "AWS::S3::Bucket",
           "Properties": {
-            "BucketName": "vet-clinic-frontend-dev",
+            "BucketName": "vet-clinic-guilherme-inventory-frontend-dev",
             "PublicAccessBlockConfiguration": {
               "BlockPublicAcls": false,
               "BlockPublicPolicy": false,
@@ -5424,106 +5424,106 @@
         "ServerlessDeploymentBucketName": {
           "Value": "serverless-framework-deployments-us-east-1-0cbe4ad6-8477",
           "Export": {
-            "Name": "sls-vet-clinic-dev-ServerlessDeploymentBucketName"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-ServerlessDeploymentBucketName"
           }
         },
         "CreatePetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "CreatePetLambdaVersiona29Utul8IRg7TZ7lezv1uPWzZnUS0P8sJhwetawd0"
+            "Ref": "CreatePetLambdaVersion3fuMm7JsyfOumVM2vlrxzH3CxzJ1MOYLzspLlHtj8"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-CreatePetLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-CreatePetLambdaFunctionQualifiedArn"
           }
         },
         "ListPetsLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "ListPetsLambdaVersionYym1w47jPlXku7EIvSIOLcASmik3W08r29dKt1fcY"
+            "Ref": "ListPetsLambdaVersionxLTpYnKLs3Ksp2AvV4Cp5zsKHBhW1LyDMyVD7hkw"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-ListPetsLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-ListPetsLambdaFunctionQualifiedArn"
           }
         },
         "GetPetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "GetPetLambdaVersion9EBrVQzgyVnsUheKVRVULcgX7JIgFbI7Uexc8jhjToI"
+            "Ref": "GetPetLambdaVersionDrdDfSPBjIZxN0DS2gx9SMPYNoCfmSeC7dSzA6S2AQ"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-GetPetLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-GetPetLambdaFunctionQualifiedArn"
           }
         },
         "UpdatePetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "UpdatePetLambdaVersionT9Z94Vv0WNDbiQ1v68nWnJBC4XV2BqDaH7S0QBE"
+            "Ref": "UpdatePetLambdaVersioneeSZrbrF5P2pA30q4yuBeJAtPomTimXeNPBIQEwtY"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-UpdatePetLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-UpdatePetLambdaFunctionQualifiedArn"
           }
         },
         "DeletePetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "DeletePetLambdaVersionKEypoheGueZ72Qypif82PlOUD7YTgpw1KNZhwE"
+            "Ref": "DeletePetLambdaVersionrrhdVNA8igw7Pr9BvB0lvSiETKmkMVoNiJYTYeWsfQ"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-DeletePetLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-DeletePetLambdaFunctionQualifiedArn"
           }
         },
         "InventoryCreateLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryCreateLambdaVersionwXFP6DsQAvLvL0f3KCPBD9d417D53HXotll5Y9ufwx0"
+            "Ref": "InventoryCreateLambdaVersionwMkAFJPAkoGav7fgeAQzrNh6xvzElSp1ztzWUnmJc"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryCreateLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryCreateLambdaFunctionQualifiedArn"
           }
         },
         "InventoryListLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryListLambdaVersionD3FEwQHQqQOxGTFprzQvV9zjsgBpxTYwGMw3W61r9w"
+            "Ref": "InventoryListLambdaVersionY9ivryzOVI8847rgSTw26w8Ntglm8YeUuPDHhKPEI"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryListLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryListLambdaFunctionQualifiedArn"
           }
         },
         "InventoryGetLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryGetLambdaVersionDvyChNHvllld3cGeuaQco1qR3DIXMRqAdVu2TwKDQs"
+            "Ref": "InventoryGetLambdaVersionUxTopGjsbO5RzMzSIt2FEjNnwDA7vn7iTWcPM39c"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryGetLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryGetLambdaFunctionQualifiedArn"
           }
         },
         "InventoryUpdateLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryUpdateLambdaVersionFVm1PZXLmwrxroL0Kj6sO3u6c44NEDZ9QlTOV4UA4"
+            "Ref": "InventoryUpdateLambdaVersionM98m2btorCxBBGA7aI49zvd4DtlNJNG6RkkT5THVo"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryUpdateLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryUpdateLambdaFunctionQualifiedArn"
           }
         },
         "InventoryAdjustLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryAdjustLambdaVersionosk614pfSCxYj3hWrdMUAjx58BZ4AoLgtoyCdDCU"
+            "Ref": "InventoryAdjustLambdaVersionsyEGosPEP8CnxuCJIdJwNSOmiFwGlITAopxwXmv1A"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryAdjustLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryAdjustLambdaFunctionQualifiedArn"
           }
         },
         "InventoryDeleteLambdaFunctionQualifiedArn": {
           "Description": "Current Lambda function version",
           "Value": {
-            "Ref": "InventoryDeleteLambdaVersion7nrI7dkDi2UP3BvqWSZSgDXmWMxI6cbAWFplstKccm4"
+            "Ref": "InventoryDeleteLambdaVersionVzimEUPAwqTnmsiXvhOYxsrtDu0YD2ePdEq2Oq6iu0s"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-InventoryDeleteLambdaFunctionQualifiedArn"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-InventoryDeleteLambdaFunctionQualifiedArn"
           }
         },
         "HttpApiId": {
@@ -5532,7 +5532,7 @@
             "Ref": "HttpApi"
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-HttpApiId"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiId"
           }
         },
         "HttpApiUrl": {
@@ -5557,7 +5557,7 @@
             ]
           },
           "Export": {
-            "Name": "sls-vet-clinic-dev-HttpApiUrl"
+            "Name": "sls-vet-clinic-guilherme-inventory-dev-HttpApiUrl"
           }
         },
         "ApiUrl": {

@@ -1,4 +1,4 @@
-service: vet-clinic
+service: vet-clinic-guilherme-inventory
 
 frameworkVersion: "4"
 
