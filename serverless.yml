@@ -7,19 +7,6 @@ provider:
   runtime: python3.12
   region: us-east-1
   stage: ${opt:stage, 'dev'}
-  httpApi:
-    cors:
-      allowedOrigins:
-        - '*'
-      allowedHeaders:
-        - Content-Type
-      allowedMethods:
-        - GET
-        - POST
-        - PUT
-        - PATCH
-        - DELETE
-        - OPTIONS
   environment:
     PETS_TABLE: ${self:service}-pets-${self:provider.stage}
     TABLE_NAME: ${self:service}-inventory-${self:provider.stage}
@@ -40,9 +27,6 @@ provider:
 
 functions:
 
-  # -------------------------
-  # PETS
-  # -------------------------
   createPet:
     handler: src/pets/create.handler
     events:
@@ -78,9 +62,6 @@ functions:
           path: /pets/{id}
           method: DELETE
 
-  # -------------------------
-  # INVENTORY
-  # -------------------------
   inventoryCreate:
     handler: src/inventory/create.handler
     events:
@@ -122,6 +103,19 @@ functions:
       - httpApi:
           path: /inventory/{id}
           method: DELETE
+
+  inventoryOptions:
+    handler: src/inventory/options.handler
+    events:
+      - httpApi:
+          path: /inventory
+          method: OPTIONS
+      - httpApi:
+          path: /inventory/{id}
+          method: OPTIONS
+      - httpApi:
+          path: /inventory/{id}/adjust
+          method: OPTIONS
 
 resources:
   Resources:
