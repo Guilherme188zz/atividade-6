@@ -7,6 +7,19 @@ provider:
   runtime: python3.12
   region: us-east-1
   stage: ${opt:stage, 'dev'}
+  httpApi:
+    cors:
+      allowedOrigins:
+        - '*'
+      allowedHeaders:
+        - Content-Type
+      allowedMethods:
+        - GET
+        - POST
+        - PUT
+        - PATCH
+        - DELETE
+        - OPTIONS
   environment:
     PETS_TABLE: ${self:service}-pets-${self:provider.stage}
     TABLE_NAME: ${self:service}-inventory-${self:provider.stage}

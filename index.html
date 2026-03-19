@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Estoque — Clínica Veterinária</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:        #0d0f14;
+      --surface:   #151820;
+      --border:    #232736;
+      --accent:    #00e5a0;
+      --accent2:   #ff6b6b;
+      --accent3:   #ffd166;
+      --text:      #e8eaf0;
+      --muted:     #6b7280;
+      --radius:    8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      padding: 32px 24px;
+    }
+
+    /* ── HEADER ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    header .logo {
+      width: 42px; height: 42px;
+      background: var(--accent);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+    }
+    header h1 {
+      font-family: 'Space Mono', monospace;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+    }
+    header h1 span { color: var(--accent); }
+    header p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; top: 20px; right: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 12px 18px;
+      border-radius: var(--radius);
+      font-size: 13px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .3s;
+      z-index: 999;
+      max-width: 300px;
+    }
+    #toast.error { border-left-color: var(--accent2); }
+    #toast.show { opacity: 1; pointer-events: auto; }
+
+    /* ── LAYOUT ── */
+    .layout { display: grid; grid-template-columns: 340px 1fr; gap: 24px; align-items: start; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .card h2 {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
+    }
+
+    /* ── FORM ── */
+    .form-grid { display: flex; flex-direction: column; gap: 12px; }
+    label { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+
+    input, select {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color .2s;
+    }
+    input:focus, select:focus { border-color: var(--accent); }
+    select option { background: var(--bg); }
+
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      padding: 10px 18px;
+      border: none; border-radius: var(--radius);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px; font-weight: 600;
+      cursor: pointer; transition: opacity .2s, transform .1s;
+    }
+    .btn:active { transform: scale(.97); }
+    .btn-primary { background: var(--accent); color: #0d0f14; width: 100%; margin-top: 4px; }
+    .btn-sm { padding: 5px 10px; font-size: 12px; border-radius: 6px; }
+    .btn-danger { background: rgba(255,107,107,.15); color: var(--accent2); border: 1px solid rgba(255,107,107,.3); }
+    .btn-ghost  { background: rgba(255,255,255,.05); color: var(--text); border: 1px solid var(--border); }
+    .btn:hover { opacity: .85; }
+
+    /* ── FILTERS ── */
+    .filters {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      margin-bottom: 16px; align-items: center;
+    }
+    .filters select, .filters input {
+      width: auto; min-width: 150px;
+      padding: 7px 12px; font-size: 13px;
+    }
+    .badge {
+      display: inline-flex; align-items: center;
+      padding: 3px 8px; border-radius: 20px;
+      font-size: 11px; font-weight: 600;
+    }
+    .badge-medication { background: rgba(0,229,160,.12); color: var(--accent); }
+    .badge-vaccine    { background: rgba(99,179,237,.12); color: #63b3ed; }
+    .badge-supply     { background: rgba(255,209,102,.12); color: var(--accent3); }
+    .badge-equipment  { background: rgba(160,130,255,.12); color: #a082ff; }
+
+    /* ── TABLE ── */
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px; color: var(--muted);
+      text-transform: uppercase; letter-spacing: .8px;
+      padding: 10px 12px; text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr { border-bottom: 1px solid rgba(255,255,255,.04); transition: background .15s; }
+    tbody tr:hover { background: rgba(255,255,255,.03); }
+    tbody td { padding: 11px 12px; vertical-align: middle; }
+
+    .qty-cell { font-family: 'Space Mono', monospace; font-size: 13px; }
+    .qty-low  { color: var(--accent2); }
+    .qty-ok   { color: var(--accent); }
+
+    .empty {
+      text-align: center; padding: 48px;
+      color: var(--muted); font-size: 14px;
+    }
+    .empty span { display: block; font-size: 32px; margin-bottom: 8px; }
+
+    /* ── ADJUST MODAL ── */
+    #modal {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+      z-index: 100; align-items: center; justify-content: center;
+    }
+    #modal.open { display: flex; }
+    .modal-box {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 14px; padding: 28px; width: 100%; max-width: 360px;
+    }
+    .modal-box h3 {
+      font-family: 'Space Mono', monospace; font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .modal-box h3 span { color: var(--accent); }
+    .op-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .op-btn {
+      padding: 10px; border-radius: var(--radius); border: 1px solid var(--border);
+      background: var(--bg); color: var(--muted);
+      font-family: 'Space Mono', monospace; font-size: 13px;
+      cursor: pointer; text-align: center; transition: all .2s;
+    }
+    .op-btn.selected-add    { border-color: var(--accent);  color: var(--accent);  background: rgba(0,229,160,.08); }
+    .op-btn.selected-remove { border-color: var(--accent2); color: var(--accent2); background: rgba(255,107,107,.08); }
+    .modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+    .modal-actions .btn { flex: 1; }
+
+    /* ── LOADING ── */
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- MODAL AJUSTE DE ESTOQUE -->
+<div id="modal">
+  <div class="modal-box">
+    <h3>Ajustar Estoque — <span id="modal-name"></span></h3>
+    <div class="op-row">
+      <div class="op-btn" id="op-add" onclick="selectOp('add')">＋ Adicionar</div>
+      <div class="op-btn" id="op-remove" onclick="selectOp('remove')">－ Remover</div>
+    </div>
+    <div>
+      <label>Quantidade</label>
+      <input type="number" id="modal-amount" min="1" placeholder="Ex: 10"/>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-primary" onclick="confirmAdjust()">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<header>
+  <div class="logo">💊</div>
+  <div>
+    <h1>Clínica Vet — <span>Estoque</span></h1>
+    <p>Controle de medicamentos e insumos</p>
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- FORMULÁRIO -->
+  <div class="card">
+    <h2>Novo Item</h2>
+    <div class="form-grid">
+      <div>
+        <label>Nome do produto *</label>
+        <input type="text" id="f-name" placeholder="Ex: Amoxicilina 500mg"/>
+      </div>
+      <div>
+        <label>Categoria *</label>
+        <select id="f-category">
+          <option value="">Selecione...</option>
+          <option value="medication">Medicamento</option>
+          <option value="vaccine">Vacina</option>
+          <option value="supply">Insumo</option>
+          <option value="equipment">Equipamento</option>
+        </select>
+      </div>
+      <div class="row2">
+        <div>
+          <label>Quantidade *</label>
+          <input type="number" id="f-quantity" min="0" placeholder="100"/>
+        </div>
+        <div>
+          <label>Unidade *</label>
+          <input type="text" id="f-unit" placeholder="comprimido"/>
+        </div>
+      </div>
+      <div>
+        <label>Qtd. mínima (alerta) *</label>
+        <input type="number" id="f-minQuantity" min="0" placeholder="20"/>
+      </div>
+      <div>
+        <label>Fornecedor</label>
+        <input type="text" id="f-supplier" placeholder="Opcional"/>
+      </div>
+      <div class="row2">
+        <div>
+          <label>Validade</label>
+          <input type="date" id="f-expiresAt"/>
+        </div>
+        <div>
+          <label>Custo unitário (R$)</label>
+          <input type="number" id="f-unitCost" min="0" step="0.01" placeholder="0.00"/>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="createItem()">Cadastrar Item</button>
+    </div>
+  </div>
+
+  <!-- TABELA -->
+  <div class="card">
+    <h2>Itens em Estoque</h2>
+
+    <div class="filters">
+      <select id="filter-category" onchange="loadItems()">
+        <option value="">Todas as categorias</option>
+        <option value="medication">Medicamento</option>
+        <option value="vaccine">Vacina</option>
+        <option value="supply">Insumo</option>
+        <option value="equipment">Equipamento</option>
+      </select>
+      <button class="btn btn-sm btn-ghost" id="btn-low" onclick="toggleLowStock()">⚠️ Estoque baixo</button>
+      <button class="btn btn-sm btn-ghost" onclick="loadItems()" style="margin-left:auto">↻ Atualizar</button>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Estoque</th>
+            <th>Validade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const API = 'https://2luzetae83.execute-api.us-east-1.amazonaws.com';
+  let lowStockMode = false;
+  let adjustId = null, adjustOp = null;
+
+  // ── TOAST ──────────────────────────────────────────────
+  function toast(msg, type = 'ok') {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = type === 'error' ? 'error show' : 'show';
+    setTimeout(() => el.classList.remove('show'), 3500);
+  }
+
+  // ── BADGE CATEGORIA ────────────────────────────────────
+  const catLabel = { medication: 'Medicamento', vaccine: 'Vacina', supply: 'Insumo', equipment: 'Equipamento' };
+  function badge(cat) {
+    return `<span class="badge badge-${cat}">${catLabel[cat] || cat}</span>`;
+  }
+
+  // ── CARREGAR ITENS ─────────────────────────────────────
+  async function loadItems() {
+    const tbody = document.getElementById('tbody');
+    tbody.innerHTML = '<tr><td colspan="5"><div class="spinner"></div></td></tr>';
+
+    const cat = document.getElementById('filter-category').value;
+    let url = `${API}/inventory`;
+    if (lowStockMode)   url += '?low_stock=true';
+    else if (cat)       url += `?category=${cat}`;
+
+    try {
+      const res  = await fetch(url);
+      const data = await res.json();
+
+      if (!Array.isArray(data) || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><span>📦</span>Nenhum item encontrado</div></td></tr>';
+        return;
+      }
+
+      // filtra só itens de inventory (tem minQuantity)
+      const items = data.filter(i => i.minQuantity !== undefined);
+
+      tbody.innerHTML = items.map(item => {
+        const qty     = Number(item.quantity);
+        const minQty  = Number(item.minQuantity);
+        const isLow   = qty <= minQty;
+        const expires = item.expiresAt ? item.expiresAt.substring(0, 10) : '—';
+        return `
+          <tr>
+            <td>
+              <div style="font-weight:500">${item.name}</div>
+              <div style="font-size:11px;color:var(--muted)">${item.unit}</div>
+            </td>
+            <td>${badge(item.category)}</td>
+            <td class="qty-cell ${isLow ? 'qty-low' : 'qty-ok'}">
+              ${qty} <span style="font-size:11px;color:var(--muted)">/ mín ${minQty}</span>
+              ${isLow ? ' ⚠️' : ''}
+            </td>
+            <td style="font-size:12px;color:var(--muted)">${expires}</td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="btn btn-sm btn-ghost" onclick="openModal('${item.id}','${item.name.replace(/'/g,"\\'")}')">±</button>
+                <button class="btn btn-sm btn-danger" onclick="deleteItem('${item.id}')">✕</button>
+              </div>
+            </td>
+          </tr>`;
+      }).join('');
+    } catch (e) {
+      tbody.innerHTML = '<tr><td colspan="5"><div class="empty"><span>❌</span>Erro ao carregar</div></td></tr>';
+      toast('Falha ao conectar com a API', 'error');
+    }
+  }
+
+  // ── CRIAR ITEM ─────────────────────────────────────────
+  async function createItem() {
+    const name        = document.getElementById('f-name').value.trim();
+    const category    = document.getElementById('f-category').value;
+    const quantity    = parseInt(document.getElementById('f-quantity').value);
+    const unit        = document.getElementById('f-unit').value.trim();
+    const minQuantity = parseInt(document.getElementById('f-minQuantity').value);
+    const supplier    = document.getElementById('f-supplier').value.trim();
+    const expiresAt   = document.getElementById('f-expiresAt').value;
+    const unitCost    = parseFloat(document.getElementById('f-unitCost').value);
+
+    if (!name || !category || isNaN(quantity) || !unit || isNaN(minQuantity)) {
+      toast('Preencha todos os campos obrigatórios (*)', 'error'); return;
+    }
+
+    const body = { name, category, quantity, unit, minQuantity };
+    if (supplier)              body.supplier  = supplier;
+    if (expiresAt)             body.expiresAt = expiresAt + 'T00:00:00Z';
+    if (!isNaN(unitCost))      body.unitCost  = unitCost;
+
+    try {
+      const res = await fetch(`${API}/inventory`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Erro'); }
+      toast('Item cadastrado com sucesso!');
+      // limpa formulário
+      ['f-name','f-quantity','f-unit','f-minQuantity','f-supplier','f-expiresAt','f-unitCost'].forEach(id => document.getElementById(id).value = '');
+      document.getElementById('f-category').value = '';
+      loadItems();
+    } catch (e) {
+      toast(e.message, 'error');
+    }
+  }
+
+  // ── DELETAR ────────────────────────────────────────────
+  async function deleteItem(id) {
+    if (!confirm('Remover este item do estoque?')) return;
+    try {
+      const res = await fetch(`${API}/inventory/${id}`, { method: 'DELETE' });
+      if (!res.ok) throw new Error('Erro ao remover');
+      toast('Item removido');
+      loadItems();
+    } catch (e) {
+      toast(e.message, 'error');
+    }
+  }
+
+  // ── MODAL AJUSTE ───────────────────────────────────────
+  function openModal(id, name) {
+    adjustId = id; adjustOp = null;
+    document.getElementById('modal-name').textContent = name;
+    document.getElementById('modal-amount').value = '';
+    document.getElementById('op-add').className    = 'op-btn';
+    document.getElementById('op-remove').className = 'op-btn';
+    document.getElementById('modal').classList.add('open');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('open');
+  }
+  function selectOp(op) {
+    adjustOp = op;
+    document.getElementById('op-add').className    = op === 'add'    ? 'op-btn selected-add'    : 'op-btn';
+    document.getElementById('op-remove').className = op === 'remove' ? 'op-btn selected-remove' : 'op-btn';
+  }
+  async function confirmAdjust() {
+    const amount = parseInt(document.getElementById('modal-amount').value);
+    if (!adjustOp)        { toast('Selecione uma operação', 'error'); return; }
+    if (isNaN(amount) || amount <= 0) { toast('Informe uma quantidade válida', 'error'); return; }
+    try {
+      const res = await fetch(`${API}/inventory/${adjustId}/adjust`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ operation: adjustOp, amount })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erro');
+      toast(`Estoque ajustado! Nova quantidade: ${data.quantity}`);
+      closeModal();
+      loadItems();
+    } catch (e) {
+      toast(e.message, 'error');
+    }
+  }
+
+  // ── LOW STOCK TOGGLE ───────────────────────────────────
+  function toggleLowStock() {
+    lowStockMode = !lowStockMode;
+    const btn = document.getElementById('btn-low');
+    btn.style.borderColor = lowStockMode ? 'var(--accent2)' : 'var(--border)';
+    btn.style.color       = lowStockMode ? 'var(--accent2)' : 'var(--text)';
+    loadItems();
+  }
+
+  // fecha modal clicando fora
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+
+  // carrega ao iniciar
+  loadItems();
+</script>
+</body>
+</html>
