@@ -9,7 +9,7 @@ def handler(event, context):
     """
     try:
         item_id = event["pathParameters"]["id"]
-        table = get_table()
+        table = get_table("TABLE_NAME")
 
         # Verifica se existe antes de deletar
         existing = table.get_item(Key={"id": item_id}).get("Item")

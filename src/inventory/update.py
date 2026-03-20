@@ -5,6 +5,15 @@ from src.shared.db import get_table
 from src.shared.response import success, error
 
 
+def validate_date(date_str):
+    """Valida se a string é uma data ISO 8601 válida."""
+    try:
+        datetime.fromisoformat(date_str.replace("Z", "+00:00"))
+        return True
+    except ValueError:
+        return False
+
+
 def handler(event, context):
     """
     PUT /inventory/{id}
@@ -14,14 +23,14 @@ def handler(event, context):
         item_id = event["pathParameters"]["id"]
         body = json.loads(event.get("body") or "{}")
 
-        # Verifica se o item existe antes de atualizar
-        table = get_table()
+        # Verifica se o item existe
+        table = get_table("TABLE_NAME")
         existing = table.get_item(Key={"id": item_id}).get("Item")
         if not existing:
             return error(404, f"Item com id '{item_id}' não encontrado")
 
         # Valida campos obrigatórios
-        required_fields = ["name", "category", "quantity", "unit", "minQuantity"]
+        required_fields = ["name", "category", "quantity", "unit", "minQuantity", "expiresAt", "unitCost"]
         for field in required_fields:
             if field not in body:
                 return error(400, f"Campo obrigatório ausente: '{field}'")
@@ -37,6 +46,14 @@ def handler(event, context):
         if not isinstance(body["minQuantity"], int) or body["minQuantity"] < 0:
             return error(400, "'minQuantity' deve ser um inteiro maior ou igual a 0")
 
+        # Valida data de validade
+        if not validate_date(body["expiresAt"]):
+            return error(400, "'expiresAt' deve ser uma data válida no formato ISO 8601. Ex: 2026-12-31T00:00:00Z")
+
+        # Valida unitCost
+        if not isinstance(body["unitCost"], (int, float)) or body["unitCost"] < 0:
+            return error(400, "'unitCost' deve ser um número maior ou igual a 0")
+
         now = datetime.now(timezone.utc).isoformat()
 
         updated_item = {
@@ -46,14 +63,15 @@ def handler(event, context):
             "quantity":    body["quantity"],
             "unit":        body["unit"],
             "minQuantity": body["minQuantity"],
-            "createdAt":   existing["createdAt"],  # preserva o original!
+            "expiresAt":   body["expiresAt"],
+            "unitCost":    body["unitCost"],
+            "createdAt":   existing["createdAt"],
             "updatedAt":   now,
         }
 
-        # Campos opcionais
-        for field in ["supplier", "expiresAt", "unitCost"]:
-            if field in body:
-                updated_item[field] = body[field]
+        # Campo opcional
+        if "supplier" in body:
+            updated_item["supplier"] = body["supplier"]
 
         table.put_item(Item=updated_item)
 

@@ -11,7 +11,7 @@ def handler(event, context):
         # O {id} da URL vem dentro de pathParameters
         item_id = event["pathParameters"]["id"]
 
-        table = get_table()
+        table = get_table("TABLE_NAME")
         response = table.get_item(Key={"id": item_id})
 
         item = response.get("Item")
